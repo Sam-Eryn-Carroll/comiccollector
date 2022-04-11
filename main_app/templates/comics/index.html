@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Comic List</h1>
+
+{% for comic in comics %}
+    <div class="card">
+        <div class="card-content">
+        <span class="card-title">{{ comic.title }}</span>
+        <p>Series: {{ comic.series }}</p>
+        <p>Issue #{{ comic.issuenumber }}</p>
+        <p>Summary: {{ comic.summary }}</p>
+        <p>Release Date: {{ comic.releasedate }}</p>
+        <p>Publisher: {{ comic.publisher }}</p>
+        </div>
+    </div>
+{% endfor %}
+
+{% endblock %}
