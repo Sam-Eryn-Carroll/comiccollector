@@ -1,8 +1,9 @@
 from sre_constants import SUCCESS
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import HttpResponse
 from .models import Comic
+from .forms import ReviewForm
 
 
 
@@ -18,7 +19,16 @@ def comics_index(request):
 
 def comics_detail(request, comic_id):
     comic = Comic.objects.get(id=comic_id)
-    return render(request, 'comics/detail.html', { 'comic': comic})
+    review_form = ReviewForm()
+    return render(request, 'comics/detail.html', { 'comic': comic, 'review_form': review_form})
+
+def add_review(request, comic_id):
+    form = ReviewForm(request.POST)
+    if form.is_valid():
+        new_review = form.save(commit=False)
+        new_review.comic_id = comic_id
+        new_review.save()
+    return redirect('detail', comic_id=comic_id)
 
 class ComicCreate(CreateView):
     model = Comic
